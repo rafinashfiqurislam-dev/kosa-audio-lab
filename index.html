@@ -1,292 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111026">
-<title>KOSA — The Math of Music</title>
-<style>
-  :root{--bg:#0b0b18;--panel:#15152a;--ink:#f7f5ff;--muted:#b6b3d2;--pink:#ff5ebc;--cyan:#57e8ff;--yellow:#ffe66d;--line:#343252}
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(ellipse at 12% 0%,#302052 0,transparent 38%),radial-gradient(ellipse at 90% 12%,#123b51 0,transparent 34%),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
-  .wrap{width:min(1080px,92%);margin:auto;padding:28px 0 48px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:48px}
-  .brand{font-size:1.2rem;font-weight:1000;letter-spacing:.25em;color:var(--yellow)}
-  .tag{border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:.8rem}
-  .hero{text-align:center;margin:0 auto 34px;max-width:760px}
-  .eyebrow{display:inline-block;color:var(--cyan);font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:.75rem;margin-bottom:14px}
-  h1{font-size:clamp(3rem,10vw,6.6rem);line-height:.9;letter-spacing:-.07em;margin:0;font-weight:1000}
-  h1 span{color:var(--pink);text-shadow:0 0 36px #ff5ebc33}
-  .subtitle{font-size:clamp(1rem,2.4vw,1.2rem);color:var(--muted);line-height:1.7;max-width:610px;margin:22px auto}
-  .mathline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--yellow);font-size:.9rem;letter-spacing:.03em}
-  .layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
-  .card{background:linear-gradient(145deg,#1a1932ee,#111120f5);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 18px 60px #0003}
-  .card h2{margin:0 0 7px;font-size:1.25rem}
-  .desc{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0 0 20px}
-  .track{padding:16px;border:1px solid var(--line);border-radius:17px;background:#0d0d1b;margin:12px 0}
-  .trackhead{display:flex;align-items:center;gap:12px;margin-bottom:13px}
-  .num{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;font-weight:1000;color:#141323;flex-shrink:0}
-  .pink{background:var(--pink)}.cyan{background:var(--cyan)}
-  .tracktitle{font-weight:850}.tracksub{font-size:.78rem;color:var(--muted);margin-top:3px}
-  input[type=file]{display:block;width:100%;font-size:.82rem;color:var(--muted);margin:8px 0 12px}
-  input[type=file]::file-selector-button{border:0;border-radius:10px;padding:9px 11px;margin-right:9px;background:#2a2946;color:var(--ink);font-weight:700;cursor:pointer}
-  audio{width:100%;height:38px}
-  .control{margin:18px 0}
-  .controltop{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;margin-bottom:9px}
-  .controltop span:last-child{color:var(--yellow);font-variant-numeric:tabular-nums}
-  input[type=range]{width:100%;accent-color:var(--pink);cursor:pointer}
-  select{background:#0d0d1b;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%}
-  .buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-  button{border:0;border-radius:13px;padding:13px 16px;font-weight:900;cursor:pointer;transition:transform .15s,filter .15s}
-  button:hover{transform:translateY(-2px);filter:brightness(1.08)}
-  button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-  .primary{background:linear-gradient(100deg,var(--pink),#ff9cda);color:#201022;flex:1}
-  .secondary{background:#292844;color:var(--ink);border:1px solid #444166}
-  .yellow{background:var(--yellow);color:#211d09}
-  .equation{font-size:clamp(1.3rem,4vw,2rem);font-weight:1000;letter-spacing:-.04em;margin:14px 0 10px}
-  .equation .a{color:var(--pink)}.equation .b{color:var(--cyan)}.equation .c{color:var(--yellow)}
-  .joke{border-left:3px solid var(--yellow);padding:12px 14px;background:#ffe66d0c;border-radius:0 12px 12px 0;color:#e7e2ff;line-height:1.6;font-size:.9rem;margin:18px 0}
-  .status{color:var(--muted);font-size:.82rem;line-height:1.5;margin-top:14px;min-height:1.3em}
-  .meter{height:8px;background:#2b2944;border-radius:99px;overflow:hidden;margin:18px 0}
-  .meter div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--cyan),var(--yellow));transition:width .2s}
-  footer{text-align:center;color:#8986a9;font-size:.8rem;line-height:1.7;margin-top:30px}
-  .smallprint{font-size:.76rem;color:#8d8aa9;line-height:1.5;margin-top:14px}
-  @media(max-width:760px){.layout{grid-template-columns:1fr}header{margin-bottom:35px}.card{padding:18px}.tag{font-size:.7rem}.wrap{padding-top:20px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>KOSA Music</title>
+  <style>
+    :root {
+      --bg: #080808;
+      --panel: #151515;
+      --panel-hover: #202020;
+      --text: #f5f5f5;
+      --muted: #a7a7a7;
+      --green: #1ed760;
+      --line: #292929;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh; padding-bottom: 118px;
+    }
+    header {
+      height: 76px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(18px, 5vw, 64px); border-bottom: 1px solid #1d1d1d;
+      background: rgba(8,8,8,.96); position: sticky; top: 0; z-index: 5;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.6px; font-size: 24px; }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+      color: #071008; background: var(--green); font-size: 19px; font-weight: 950;
+    }
+    .header-note { color: var(--muted); font-size: 13px; }
+    main { width: min(1080px, 100%); margin: 0 auto; padding: 42px clamp(18px, 5vw, 42px) 40px; }
+    .hero { padding: 28px 0 34px; }
+    .eyebrow { color: var(--green); text-transform: uppercase; letter-spacing: 3px; font-size: 11px; font-weight: 800; }
+    h1 { font-size: clamp(42px, 8vw, 76px); line-height: 1.02; letter-spacing: -3px; margin: 14px 0; }
+    .hero p { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 550px; margin: 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 26px 0 20px; }
+    h2 { font-size: 25px; letter-spacing: -.7px; margin: 0; }
+    .section-head span { color: var(--muted); font-size: 13px; }
+    .track-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .track {
+      background: linear-gradient(145deg, #1b1b1b, #111); border: 1px solid #252525;
+      border-radius: 18px; padding: 18px; min-width: 0; transition: background .2s, transform .2s, border-color .2s;
+    }
+    .track:hover { background: var(--panel-hover); transform: translateY(-2px); }
+    .cover {
+      aspect-ratio: 1.5 / 1; border-radius: 12px; margin-bottom: 18px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; position: relative;
+      background: radial-gradient(circle at 25% 25%, #343434, #101010 65%);
+    }
+    .cover::before, .cover::after { content: ""; position: absolute; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; }
+    .cover::before { width: 150px; height: 150px; }
+    .cover::after { width: 105px; height: 105px; }
+    .cover-number { z-index: 1; font-size: clamp(45px, 7vw, 70px); font-weight: 900; letter-spacing: -4px; color: #fff; }
+    .cover.two { background: radial-gradient(circle at 75% 20%, #354337, #111 67%); }
+    .track-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .track-title { font-size: 20px; font-weight: 800; margin: 0 0 6px; }
+    .track-sub { font-size: 13px; color: var(--muted); margin: 0; }
+    .play-card {
+      border: 0; border-radius: 50%; width: 48px; height: 48px; flex: 0 0 48px;
+      background: var(--green); color: #071008; display: grid; place-items: center; cursor: pointer;
+      box-shadow: 0 5px 20px rgba(30,215,96,.12); transition: transform .15s, filter .15s;
+    }
+    .play-card:hover { transform: scale(1.06); filter: brightness(1.08); }
+    .play-card svg { width: 20px; height: 20px; fill: currentColor; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 12px; color: var(--muted); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #626262; }
+    .track.is-playing .dot { background: var(--green); box-shadow: 0 0 10px rgba(30,215,96,.5); }
+    .track.is-playing { border-color: #3a6948; }
+    .tip { margin-top: 22px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    footer { text-align: center; color: #858585; font-size: 12px; padding: 24px 16px; letter-spacing: .7px; }
+    footer strong { color: #e9e9e9; }
+    .player {
+      position: fixed; z-index: 10; bottom: 0; left: 0; right: 0; background: rgba(15,15,15,.97);
+      border-top: 1px solid #303030; backdrop-filter: blur(14px); padding: 13px clamp(14px, 4vw, 40px) 14px;
+    }
+    .player-inner { width: min(1080px, 100%); margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+    .now-playing { min-width: 0; }
+    .now-title { font-size: 13px; font-weight: 750; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .now-sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .controls { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .control-btn { background: none; border: 0; color: #eee; cursor: pointer; display: grid; place-items: center; padding: 7px; }
+    .control-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .control-btn.main { width: 40px; height: 40px; border-radius: 50%; background: #f5f5f5; color: #090909; }
+    .control-btn.main svg { width: 19px; height: 19px; }
+    .progress-wrap { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .time { font-size: 10px; color: var(--muted); min-width: 30px; text-align: center; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; accent-color: var(--green); cursor: pointer; min-width: 0; }
+    .progress-area { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 4px; margin-top: -7px; }
+    .progress-area .progress-wrap { gap: 10px; }
+    @media (min-width: 700px) {
+      .player-inner { grid-template-columns: minmax(180px,1fr) minmax(190px, 260px) minmax(180px,1fr); }
+      .progress-area { grid-column: 2; grid-row: 2; }
+      .player-inner { row-gap: 7px; }
+    }
+    @media (max-width: 560px) {
+      header { height: 66px; }
+      .brand { font-size: 21px; }
+      .header-note { font-size: 11px; }
+      main { padding-top: 26px; }
+      .hero { padding-top: 22px; }
+      h1 { letter-spacing: -2px; }
+      .track-grid { grid-template-columns: 1fr; gap: 14px; }
+      .cover { aspect-ratio: 2 / 1; }
+      .cover::before { width: 120px; height: 120px; }
+      .cover::after { width: 82px; height: 82px; }
+      .player-inner { grid-template-columns: minmax(0,1fr) auto; gap: 8px 12px; }
+      .controls { grid-column: 2; grid-row: 1; gap: 8px; }
+      .now-playing { grid-column: 1; grid-row: 1; }
+      .progress-area { grid-column: 1 / -1; grid-row: 2; margin-top: 0; }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
   <header>
-    <div class="brand">K O S A</div>
-    <div class="tag">MATH × MUSIC × MAYHEM</div>
+    <div class="brand"><div class="brand-mark">K</div><span>KOSA Music</span></div>
+    <div class="header-note">Your sound. Your space.</div>
   </header>
 
-  <section class="hero">
-    <div class="eyebrow">The highly questionable science of sound</div>
-    <h1>KOSA<span>.</span></h1>
-    <p class="subtitle">Two voices enter. One chaotic masterpiece leaves. Mix your audio like a mathematician who forgot to study—but brought excellent vibes.</p>
-    <div class="mathline">VOICE A + VOICE B × VIBES ÷ SERIOUSNESS = ???</div>
-  </section>
-
-  <main class="layout">
-    <section class="card">
-      <h2>🎙️ Build your mix</h2>
-      <p class="desc">Choose your two audio files, balance the volume, then create one combined WAV file.</p>
-
-      <div class="track">
-        <div class="trackhead"><div class="num pink">A</div><div><div class="tracktitle">Kosaman Music</div><div class="tracksub">The main character energy</div></div></div>
-        <input id="fileA" type="file" accept="audio/*">
-        <audio id="previewA" controls hidden></audio>
-      </div>
-
-      <div class="track">
-        <div class="trackhead"><div class="num cyan">B</div><div><div class="tracktitle">Sona Baba Music</div><div class="tracksub">The plot twist</div></div></div>
-        <input id="fileB" type="file" accept="audio/*">
-        <audio id="previewB" controls hidden></audio>
-      </div>
-
-      <div class="control">
-        <div class="controltop"><label for="volA">Kosaman volume</label><span id="volALabel">80%</span></div>
-        <input id="volA" type="range" min="0" max="150" value="80">
-      </div>
-      <div class="control">
-        <div class="controltop"><label for="volB">Sona Baba volume</label><span id="volBLabel">80%</span></div>
-        <input id="volB" type="range" min="0" max="150" value="80">
-      </div>
-      <div class="control">
-        <div class="controltop"><label for="offset">Start second voice after</label><span id="offsetLabel">0.0 s</span></div>
-        <input id="offset" type="range" min="0" max="15" step=".5" value="0">
-      </div>
-      <div class="control">
-        <div class="controltop"><label for="ending">Mix length</label><span id="endingLabel">Auto</span></div>
-        <select id="ending">
-          <option value="auto">Auto — use the longer voice</option>
-          <option value="30">First 30 seconds</option>
-          <option value="60">First 60 seconds</option>
-          <option value="120">First 2 minutes</option>
-        </select>
-      </div>
-
-      <div class="buttons">
-        <button class="primary" id="mixBtn">∑ Create the chaos</button>
-        <button class="secondary" id="resetBtn">Reset</button>
-      </div>
-      <div class="status" id="status" role="status" aria-live="polite">Ready when you are. Please bring mathematically suspicious audio.</div>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Welcome to KOSA</div>
+      <h1>Music for<br>your moment.</h1>
+      <p>A simple, dark music space for the KOSA sound collection. Pick a track and press play.</p>
     </section>
 
-    <aside class="card">
-      <h2>🧪 The KOSA lab</h2>
-      <p class="desc">A totally unserious equation with a very real audio result.</p>
-      <div class="equation"><span class="a">A</span> + <span class="b">B</span> = <span class="c">BANGER?</span></div>
-      <div class="meter"><div id="meterBar"></div></div>
-      <div class="joke" id="joke">“My math teacher said find X. I said: if X wants to be found, X can text me.”</div>
-      <button class="yellow" id="jokeBtn">Generate a math joke</button>
-
-      <div style="margin-top:24px">
-        <h2>🔊 Your final mix</h2>
-        <p class="desc">Once the mix is ready, preview it here and save the WAV file.</p>
-        <audio id="resultAudio" controls hidden></audio>
-        <div class="buttons">
-          <button id="downloadBtn" class="primary" disabled>↓ Download mix (.wav)</button>
-        </div>
-        <div class="smallprint">Audio processing happens in your browser. This page does not send your audio to a server. Keep permission to use any voices or recordings you upload.</div>
+    <section aria-labelledby="kosa-map-title">
+      <div class="section-head">
+        <h2 id="kosa-map-title">KOSA MAP</h2>
+        <span>2 tracks in your collection</span>
       </div>
-    </aside>
+
+      <div class="track-grid">
+        <article class="track" data-track="0">
+          <div class="cover"><div class="cover-number">K1</div></div>
+          <div class="track-top">
+            <div>
+              <h3 class="track-title">KOSA Music 1</h3>
+              <p class="track-sub">Kosaman Music</p>
+            </div>
+            <button class="play-card" type="button" aria-label="Play KOSA Music 1" title="Play">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l10 6.4a1.2 1.2 0 0 1 0 2L9.6 19.4c-.7.4-1.6-.1-1.6-.9z"/></svg>
+            </button>
+          </div>
+          <div class="status"><span class="dot"></span><span class="status-text">Ready to play</span></div>
+        </article>
+
+        <article class="track" data-track="1">
+          <div class="cover two"><div class="cover-number">K2</div></div>
+          <div class="track-top">
+            <div>
+              <h3 class="track-title">KOSA Music 2</h3>
+              <p class="track-sub">Sona Baba Music</p>
+            </div>
+            <button class="play-card" type="button" aria-label="Play KOSA Music 2" title="Play">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l10 6.4a1.2 1.2 0 0 1 0 2L9.6 19.4c-.7.4-1.6-.1-1.6-.9z"/></svg>
+            </button>
+          </div>
+          <div class="status"><span class="dot"></span><span class="status-text">Ready to play</span></div>
+        </article>
+      </div>
+      <div class="tip">Playback tip: only one track plays at a time. Choosing the other track automatically stops the current one. Use the previous and next controls in the player to switch tracks.</div>
+    </section>
   </main>
-  <footer>Made for laughs, not for passing algebra. <br> KOSA Audio Lab · A × B = questionable genius</footer>
-</div>
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  let bufferA = null, bufferB = null, resultUrl = null;
-  const jokes = [
-    "My math teacher said find X. I said: if X wants to be found, X can text me.",
-    "Parallel lines have so much in common. It’s a shame they’ll never meet.",
-    "I told my calculator a joke. It couldn’t count how many times it laughed.",
-    "Why was the equal sign so humble? Because it knew it wasn’t less than or greater than anyone.",
-    "Math homework is just a number of problems pretending to be a personality.",
-    "I tried to make a joke about infinity. It went on forever.",
-    "My music has perfect pitch. My maths has perfect… confusion."
-  ];
-  function setStatus(message){ $('status').textContent = message; }
-  function wireFile(inputId, previewId, which) {
-    $(inputId).addEventListener('change', async event => {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      try {
-        const url = URL.createObjectURL(file);
-        const preview = $(previewId);
-        preview.src = url; preview.hidden = false;
-        const bytes = await file.arrayBuffer();
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const decoded = await ctx.decodeAudioData(bytes.slice(0));
-        if (which === 'A') bufferA = decoded; else bufferB = decoded;
-        await ctx.close();
-        setStatus(`${which === 'A' ? 'Kosaman Music' : 'Sona Baba Music'} loaded: ${file.name}`);
-        $('meterBar').style.width = (bufferA && bufferB) ? '35%' : '15%';
-      } catch (err) {
-        setStatus('Could not read that audio file. Try MP3, WAV, M4A, or another browser-supported audio format.');
+
+  <footer>Powered by <strong>Nexora</strong></footer>
+
+  <div class="player" aria-label="Music player">
+    <div class="player-inner">
+      <div class="now-playing">
+        <div class="now-title" id="nowTitle">Choose a track</div>
+        <div class="now-sub" id="nowSub">KOSA Music</div>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="prevBtn" aria-label="Previous track" title="Previous track">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM19 6.2v11.6c0 .8-.9 1.3-1.6.8l-8-5.8a1 1 0 0 1 0-1.6l8-5.8c.7-.5 1.6 0 1.6.8z"/></svg>
+        </button>
+        <button class="control-btn main" id="mainPlayBtn" aria-label="Play" title="Play">
+          <svg id="mainPlayIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5c0-.8.9-1.3 1.6-.9l10 6.4a1.2 1.2 0 0 1 0 2L9.6 19.4c-.7.4-1.6-.1-1.6-.9z"/></svg>
+        </button>
+        <button class="control-btn" id="nextBtn" aria-label="Next track" title="Next track">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM5 6.2v11.6c0 .8.9 1.3 1.6.8l8-5.8a1 1 0 0 0 0-1.6l-8-5.8C5.9 4.9 5 5.4 5 6.2z"/></svg>
+        </button>
+      </div>
+      <div class="progress-area">
+        <div class="progress-wrap">
+          <span class="time" id="currentTime">0:00</span>
+          <input id="seekBar" type="range" min="0" max="1000" value="0" aria-label="Seek through track">
+          <span class="time" id="duration">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio1" preload="metadata" src="Kosaman-Music.mp3"></audio>
+  <audio id="audio2" preload="metadata" src="Sona-Baba-Music.mp3"></audio>
+
+  <script>
+    const tracks = [
+      { title: "KOSA Music 1", subtitle: "Kosaman Music", audio: document.getElementById("audio1") },
+      { title: "KOSA Music 2", subtitle: "Sona Baba Music", audio: document.getElementById("audio2") }
+    ];
+    const cards = [...document.querySelectorAll(".track")];
+    const nowTitle = document.getElementById("nowTitle");
+    const nowSub = document.getElementById("nowSub");
+    const mainPlayBtn = document.getElementById("mainPlayBtn");
+    const mainPlayIcon = document.getElementById("mainPlayIcon");
+    const seekBar = document.getElementById("seekBar");
+    const currentTime = document.getElementById("currentTime");
+    const duration = document.getElementById("duration");
+    let activeIndex = -1;
+    let seeking = false;
+
+    const playPath = '<path d="M8 5.5c0-.8.9-1.3 1.6-.9l10 6.4a1.2 1.2 0 0 1 0 2L9.6 19.4c-.7.4-1.6-.1-1.6-.9z"/>';
+    const pausePath = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+    const fmt = (seconds) => {
+      if (!Number.isFinite(seconds)) return "0:00";
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60).toString().padStart(2, "0");
+      return `${m}:${s}`;
+    };
+
+    function updateUI() {
+      tracks.forEach((track, i) => {
+        const playing = i === activeIndex && !track.audio.paused;
+        cards[i].classList.toggle("is-playing", playing);
+        cards[i].querySelector(".status-text").textContent = playing ? "Now playing" : (i === activeIndex ? "Paused" : "Ready to play");
+        const button = cards[i].querySelector(".play-card");
+        button.innerHTML = playing ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + pausePath + '</svg>' : '<svg viewBox="0 0 24 24" aria-hidden="true">' + playPath + '</svg>';
+        button.setAttribute("aria-label", (playing ? "Pause " : "Play ") + track.title);
+        button.title = playing ? "Pause" : "Play";
+      });
+      const active = activeIndex >= 0 ? tracks[activeIndex] : null;
+      nowTitle.textContent = active ? active.title : "Choose a track";
+      nowSub.textContent = active ? active.subtitle : "KOSA Music";
+      const isPlaying = active && !active.audio.paused;
+      mainPlayIcon.innerHTML = isPlaying ? pausePath : playPath;
+      mainPlayBtn.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+      mainPlayBtn.title = isPlaying ? "Pause" : "Play";
+      if (!active) {
+        seekBar.value = 0; currentTime.textContent = "0:00"; duration.textContent = "0:00";
       }
+    }
+
+    async function selectTrack(index, shouldPlay = true) {
+      index = (index + tracks.length) % tracks.length;
+      tracks.forEach((t, i) => { if (i !== index) { t.audio.pause(); t.audio.currentTime = 0; } });
+      activeIndex = index;
+      const audio = tracks[index].audio;
+      updateUI();
+      if (shouldPlay) {
+        try { await audio.play(); }
+        catch (err) {
+          updateUI();
+          alert("This track could not be played. Make sure the MP3 file is uploaded beside index.html with the exact filename.");
+        }
+      }
+      updateUI();
+    }
+
+    cards.forEach((card, index) => {
+      card.querySelector(".play-card").addEventListener("click", () => {
+        const audio = tracks[index].audio;
+        if (activeIndex === index && !audio.paused) {
+          audio.pause();
+          updateUI();
+        } else if (activeIndex === index && audio.paused && audio.currentTime > 0) {
+          audio.play().then(updateUI).catch(() => alert("Could not play this track. Check the MP3 file upload."));
+        } else {
+          selectTrack(index, true);
+        }
+      });
     });
-  }
-  wireFile('fileA','previewA','A');
-  wireFile('fileB','previewB','B');
 
-  $('volA').addEventListener('input', e => $('volALabel').textContent = e.target.value + '%');
-  $('volB').addEventListener('input', e => $('volBLabel').textContent = e.target.value + '%');
-  $('offset').addEventListener('input', e => $('offsetLabel').textContent = Number(e.target.value).toFixed(1) + ' s');
-  $('ending').addEventListener('change', e => $('endingLabel').textContent = e.target.value === 'auto' ? 'Auto' : e.target.value + ' s');
+    mainPlayBtn.addEventListener("click", () => {
+      if (activeIndex < 0) { selectTrack(0, true); return; }
+      const audio = tracks[activeIndex].audio;
+      if (audio.paused) audio.play().then(updateUI).catch(() => alert("Could not play this track. Check the MP3 file upload."));
+      else audio.pause();
+      updateUI();
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => selectTrack(activeIndex < 0 ? 0 : activeIndex - 1, true));
+    document.getElementById("nextBtn").addEventListener("click", () => selectTrack(activeIndex < 0 ? 0 : activeIndex + 1, true));
 
-  function resampleAndMix(a, b, offsetSeconds, gainA, gainB, duration) {
-    const sampleRate = 44100;
-    const offset = Math.round(offsetSeconds * sampleRate);
-    const frames = Math.max(1, Math.ceil(duration * sampleRate));
-    const channels = 2;
-    const out = [new Float32Array(frames), new Float32Array(frames)];
-    function addBuffer(buffer, gain, startAt) {
-      if (!buffer || gain === 0) return;
-      const sourceRate = buffer.sampleRate;
-      const sourceLength = buffer.length;
-      const available = Math.min(sourceLength, Math.ceil((frames - startAt) * sourceRate / sampleRate));
-      if (available <= 0) return;
-      const left = buffer.getChannelData(0);
-      const right = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : left;
-      for (let i = 0; i < frames - startAt; i++) {
-        const srcPos = i * sourceRate / sampleRate;
-        if (srcPos >= sourceLength) break;
-        const idx = Math.floor(srcPos), frac = srcPos - idx;
-        const idx2 = Math.min(idx + 1, sourceLength - 1);
-        const l = left[idx] * (1-frac) + left[idx2] * frac;
-        const r = right[idx] * (1-frac) + right[idx2] * frac;
-        out[0][startAt+i] += l * gain;
-        out[1][startAt+i] += r * gain;
+    tracks.forEach((track, index) => {
+      track.audio.addEventListener("loadedmetadata", () => {
+        if (index === activeIndex) duration.textContent = fmt(track.audio.duration);
+      });
+      track.audio.addEventListener("timeupdate", () => {
+        if (index !== activeIndex || seeking) return;
+        currentTime.textContent = fmt(track.audio.currentTime);
+        duration.textContent = fmt(track.audio.duration);
+        seekBar.value = track.audio.duration ? Math.round((track.audio.currentTime / track.audio.duration) * 1000) : 0;
+      });
+      track.audio.addEventListener("play", updateUI);
+      track.audio.addEventListener("pause", updateUI);
+      track.audio.addEventListener("ended", () => {
+        if (index === activeIndex) { updateUI(); }
+      });
+    });
+    seekBar.addEventListener("input", () => { seeking = true; });
+    seekBar.addEventListener("change", () => {
+      if (activeIndex >= 0 && Number.isFinite(tracks[activeIndex].audio.duration)) {
+        tracks[activeIndex].audio.currentTime = (Number(seekBar.value) / 1000) * tracks[activeIndex].audio.duration;
       }
-    }
-    addBuffer(a, gainA, 0);
-    addBuffer(b, gainB, offset);
-    // Soft limiter to avoid harsh clipping when both voices overlap.
-    for (let ch=0; ch<channels; ch++) {
-      for (let i=0; i<frames; i++) out[ch][i] = Math.tanh(out[ch][i] * 0.9);
-    }
-    return {channels: out, sampleRate, frames};
-  }
-  function encodeWav(mix) {
-    const {channels, sampleRate, frames} = mix;
-    const channelCount = 2, bytesPerSample = 2;
-    const dataSize = frames * channelCount * bytesPerSample;
-    const buffer = new ArrayBuffer(44 + dataSize);
-    const view = new DataView(buffer);
-    function writeStr(offset, str){ for(let i=0;i<str.length;i++) view.setUint8(offset+i,str.charCodeAt(i)); }
-    writeStr(0,'RIFF'); view.setUint32(4,36+dataSize,true); writeStr(8,'WAVE');
-    writeStr(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true);
-    view.setUint16(22,channelCount,true); view.setUint32(24,sampleRate,true);
-    view.setUint32(28,sampleRate*channelCount*bytesPerSample,true);
-    view.setUint16(32,channelCount*bytesPerSample,true); view.setUint16(34,16,true);
-    writeStr(36,'data'); view.setUint32(40,dataSize,true);
-    let offset=44;
-    for(let i=0;i<frames;i++) for(let ch=0;ch<channelCount;ch++) {
-      const s=Math.max(-1,Math.min(1,channels[ch][i]));
-      view.setInt16(offset, s<0 ? s*32768 : s*32767, true); offset+=2;
-    }
-    return new Blob([buffer],{type:'audio/wav'});
-  }
-  $('mixBtn').addEventListener('click', () => {
-    if (!bufferA || !bufferB) {
-      setStatus('Upload both audio files first. Even chaos needs two ingredients.');
-      return;
-    }
-    try {
-      $('mixBtn').disabled = true;
-      $('meterBar').style.width = '60%';
-      setStatus('Calculating vibes… adding waveforms… consulting the imaginary professor.');
-      setTimeout(() => {
-        try {
-          const offset = Number($('offset').value);
-          const maxDuration = Math.max(bufferA.duration, offset + bufferB.duration);
-          const requested = $('ending').value;
-          const duration = requested === 'auto' ? maxDuration : Math.min(maxDuration, Number(requested));
-          const mixed = resampleAndMix(bufferA, bufferB, offset, Number($('volA').value)/100, Number($('volB').value)/100, duration);
-          const blob = encodeWav(mixed);
-          if (resultUrl) URL.revokeObjectURL(resultUrl);
-          resultUrl = URL.createObjectURL(blob);
-          $('resultAudio').src = resultUrl; $('resultAudio').hidden = false;
-          $('downloadBtn').disabled = false;
-          $('meterBar').style.width = '100%';
-          setStatus(`Mix ready! ${duration.toFixed(1)} seconds of audio. Your calculator is proud of you.`);
-        } catch (err) {
-          console.error(err); setStatus('The mix failed. Try shorter files or another audio format.');
-        } finally { $('mixBtn').disabled = false; }
-      }, 30);
-    } catch (err) {
-      $('mixBtn').disabled = false; setStatus('Something went wrong while mixing. Please try again.');
-    }
-  });
-  $('downloadBtn').addEventListener('click', () => {
-    if (!resultUrl) return;
-    const a = document.createElement('a');
-    a.href = resultUrl; a.download = 'KOSA-funny-mix.wav';
-    document.body.appendChild(a); a.click(); a.remove();
-  });
-  $('jokeBtn').addEventListener('click', () => {
-    const current = $('joke').textContent;
-    let next = current;
-    while (next === current && jokes.length > 1) next = jokes[Math.floor(Math.random()*jokes.length)];
-    $('joke').textContent = '“' + next + '”';
-  });
-  $('resetBtn').addEventListener('click', () => {
-    bufferA = bufferB = null;
-    $('fileA').value = ''; $('fileB').value = '';
-    $('previewA').removeAttribute('src'); $('previewA').hidden = true;
-    $('previewB').removeAttribute('src'); $('previewB').hidden = true;
-    $('resultAudio').removeAttribute('src'); $('resultAudio').hidden = true;
-    $('volA').value = 80; $('volB').value = 80; $('offset').value = 0; $('ending').value = 'auto';
-    $('volALabel').textContent = '80%'; $('volBLabel').textContent = '80%';
-    $('offsetLabel').textContent = '0.0 s'; $('endingLabel').textContent = 'Auto';
-    $('downloadBtn').disabled = true; $('meterBar').style.width = '0%';
-    if (resultUrl) URL.revokeObjectURL(resultUrl); resultUrl = null;
-    setStatus('Reset complete. Fresh chaos, zero equations carried over.');
-  });
-})();
-</script>
+      seeking = false;
+    });
+    updateUI();
+  </script>
 </body>
 </html>
