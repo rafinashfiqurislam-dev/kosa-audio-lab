@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111026">
+<title>KOSA — The Math of Music</title>
+<style>
+  :root{--bg:#0b0b18;--panel:#15152a;--ink:#f7f5ff;--muted:#b6b3d2;--pink:#ff5ebc;--cyan:#57e8ff;--yellow:#ffe66d;--line:#343252}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(ellipse at 12% 0%,#302052 0,transparent 38%),radial-gradient(ellipse at 90% 12%,#123b51 0,transparent 34%),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+  .wrap{width:min(1080px,92%);margin:auto;padding:28px 0 48px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:48px}
+  .brand{font-size:1.2rem;font-weight:1000;letter-spacing:.25em;color:var(--yellow)}
+  .tag{border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:.8rem}
+  .hero{text-align:center;margin:0 auto 34px;max-width:760px}
+  .eyebrow{display:inline-block;color:var(--cyan);font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:.75rem;margin-bottom:14px}
+  h1{font-size:clamp(3rem,10vw,6.6rem);line-height:.9;letter-spacing:-.07em;margin:0;font-weight:1000}
+  h1 span{color:var(--pink);text-shadow:0 0 36px #ff5ebc33}
+  .subtitle{font-size:clamp(1rem,2.4vw,1.2rem);color:var(--muted);line-height:1.7;max-width:610px;margin:22px auto}
+  .mathline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--yellow);font-size:.9rem;letter-spacing:.03em}
+  .layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+  .card{background:linear-gradient(145deg,#1a1932ee,#111120f5);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 18px 60px #0003}
+  .card h2{margin:0 0 7px;font-size:1.25rem}
+  .desc{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0 0 20px}
+  .track{padding:16px;border:1px solid var(--line);border-radius:17px;background:#0d0d1b;margin:12px 0}
+  .trackhead{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .num{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;font-weight:1000;color:#141323;flex-shrink:0}
+  .pink{background:var(--pink)}.cyan{background:var(--cyan)}
+  .tracktitle{font-weight:850}.tracksub{font-size:.78rem;color:var(--muted);margin-top:3px}
+  input[type=file]{display:block;width:100%;font-size:.82rem;color:var(--muted);margin:8px 0 12px}
+  input[type=file]::file-selector-button{border:0;border-radius:10px;padding:9px 11px;margin-right:9px;background:#2a2946;color:var(--ink);font-weight:700;cursor:pointer}
+  audio{width:100%;height:38px}
+  .control{margin:18px 0}
+  .controltop{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;margin-bottom:9px}
+  .controltop span:last-child{color:var(--yellow);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--pink);cursor:pointer}
+  select{background:#0d0d1b;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%}
+  .buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  button{border:0;border-radius:13px;padding:13px 16px;font-weight:900;cursor:pointer;transition:transform .15s,filter .15s}
+  button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+  button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  .primary{background:linear-gradient(100deg,var(--pink),#ff9cda);color:#201022;flex:1}
+  .secondary{background:#292844;color:var(--ink);border:1px solid #444166}
+  .yellow{background:var(--yellow);color:#211d09}
+  .equation{font-size:clamp(1.3rem,4vw,2rem);font-weight:1000;letter-spacing:-.04em;margin:14px 0 10px}
+  .equation .a{color:var(--pink)}.equation .b{color:var(--cyan)}.equation .c{color:var(--yellow)}
+  .joke{border-left:3px solid var(--yellow);padding:12px 14px;background:#ffe66d0c;border-radius:0 12px 12px 0;color:#e7e2ff;line-height:1.6;font-size:.9rem;margin:18px 0}
+  .status{color:var(--muted);font-size:.82rem;line-height:1.5;margin-top:14px;min-height:1.3em}
+  .meter{height:8px;background:#2b2944;border-radius:99px;overflow:hidden;margin:18px 0}
+  .meter div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--cyan),var(--yellow));transition:width .2s}
+  footer{text-align:center;color:#8986a9;font-size:.8rem;line-height:1.7;margin-top:30px}
+  .smallprint{font-size:.76rem;color:#8d8aa9;line-height:1.5;margin-top:14px}
+  @media(max-width:760px){.layout{grid-template-columns:1fr}header{margin-bottom:35px}.card{padding:18px}.tag{font-size:.7rem}.wrap{padding-top:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">K O S A</div>
+    <div class="tag">MATH × MUSIC × MAYHEM</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">The highly questionable science of sound</div>
+    <h1>KOSA<span>.</span></h1>
+    <p class="subtitle">Two voices enter. One chaotic masterpiece leaves. Mix your audio like a mathematician who forgot to study—but brought excellent vibes.</p>
+    <div class="mathline">VOICE A + VOICE B × VIBES ÷ SERIOUSNESS = ???</div>
+  </section>
+
+  <main class="layout">
+    <section class="card">
+      <h2>🎙️ Build your mix</h2>
+      <p class="desc">Choose your two audio files, balance the volume, then create one combined WAV file.</p>
+
+      <div class="track">
+        <div class="trackhead"><div class="num pink">A</div><div><div class="tracktitle">Kosaman Music</div><div class="tracksub">The main character energy</div></div></div>
+        <input id="fileA" type="file" accept="audio/*">
+        <audio id="previewA" controls hidden></audio>
+      </div>
+
+      <div class="track">
+        <div class="trackhead"><div class="num cyan">B</div><div><div class="tracktitle">Sona Baba Music</div><div class="tracksub">The plot twist</div></div></div>
+        <input id="fileB" type="file" accept="audio/*">
+        <audio id="previewB" controls hidden></audio>
+      </div>
+
+      <div class="control">
+        <div class="controltop"><label for="volA">Kosaman volume</label><span id="volALabel">80%</span></div>
+        <input id="volA" type="range" min="0" max="150" value="80">
+      </div>
+      <div class="control">
+        <div class="controltop"><label for="volB">Sona Baba volume</label><span id="volBLabel">80%</span></div>
+        <input id="volB" type="range" min="0" max="150" value="80">
+      </div>
+      <div class="control">
+        <div class="controltop"><label for="offset">Start second voice after</label><span id="offsetLabel">0.0 s</span></div>
+        <input id="offset" type="range" min="0" max="15" step=".5" value="0">
+      </div>
+      <div class="control">
+        <div class="controltop"><label for="ending">Mix length</label><span id="endingLabel">Auto</span></div>
+        <select id="ending">
+          <option value="auto">Auto — use the longer voice</option>
+          <option value="30">First 30 seconds</option>
+          <option value="60">First 60 seconds</option>
+          <option value="120">First 2 minutes</option>
+        </select>
+      </div>
+
+      <div class="buttons">
+        <button class="primary" id="mixBtn">∑ Create the chaos</button>
+        <button class="secondary" id="resetBtn">Reset</button>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite">Ready when you are. Please bring mathematically suspicious audio.</div>
+    </section>
+
+    <aside class="card">
+      <h2>🧪 The KOSA lab</h2>
+      <p class="desc">A totally unserious equation with a very real audio result.</p>
+      <div class="equation"><span class="a">A</span> + <span class="b">B</span> = <span class="c">BANGER?</span></div>
+      <div class="meter"><div id="meterBar"></div></div>
+      <div class="joke" id="joke">“My math teacher said find X. I said: if X wants to be found, X can text me.”</div>
+      <button class="yellow" id="jokeBtn">Generate a math joke</button>
+
+      <div style="margin-top:24px">
+        <h2>🔊 Your final mix</h2>
+        <p class="desc">Once the mix is ready, preview it here and save the WAV file.</p>
+        <audio id="resultAudio" controls hidden></audio>
+        <div class="buttons">
+          <button id="downloadBtn" class="primary" disabled>↓ Download mix (.wav)</button>
+        </div>
+        <div class="smallprint">Audio processing happens in your browser. This page does not send your audio to a server. Keep permission to use any voices or recordings you upload.</div>
+      </div>
+    </aside>
+  </main>
+  <footer>Made for laughs, not for passing algebra. <br> KOSA Audio Lab · A × B = questionable genius</footer>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  let bufferA = null, bufferB = null, resultUrl = null;
+  const jokes = [
+    "My math teacher said find X. I said: if X wants to be found, X can text me.",
+    "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+    "I told my calculator a joke. It couldn’t count how many times it laughed.",
+    "Why was the equal sign so humble? Because it knew it wasn’t less than or greater than anyone.",
+    "Math homework is just a number of problems pretending to be a personality.",
+    "I tried to make a joke about infinity. It went on forever.",
+    "My music has perfect pitch. My maths has perfect… confusion."
+  ];
+  function setStatus(message){ $('status').textContent = message; }
+  function wireFile(inputId, previewId, which) {
+    $(inputId).addEventListener('change', async event => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      try {
+        const url = URL.createObjectURL(file);
+        const preview = $(previewId);
+        preview.src = url; preview.hidden = false;
+        const bytes = await file.arrayBuffer();
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const decoded = await ctx.decodeAudioData(bytes.slice(0));
+        if (which === 'A') bufferA = decoded; else bufferB = decoded;
+        await ctx.close();
+        setStatus(`${which === 'A' ? 'Kosaman Music' : 'Sona Baba Music'} loaded: ${file.name}`);
+        $('meterBar').style.width = (bufferA && bufferB) ? '35%' : '15%';
+      } catch (err) {
+        setStatus('Could not read that audio file. Try MP3, WAV, M4A, or another browser-supported audio format.');
+      }
+    });
+  }
+  wireFile('fileA','previewA','A');
+  wireFile('fileB','previewB','B');
+
+  $('volA').addEventListener('input', e => $('volALabel').textContent = e.target.value + '%');
+  $('volB').addEventListener('input', e => $('volBLabel').textContent = e.target.value + '%');
+  $('offset').addEventListener('input', e => $('offsetLabel').textContent = Number(e.target.value).toFixed(1) + ' s');
+  $('ending').addEventListener('change', e => $('endingLabel').textContent = e.target.value === 'auto' ? 'Auto' : e.target.value + ' s');
+
+  function resampleAndMix(a, b, offsetSeconds, gainA, gainB, duration) {
+    const sampleRate = 44100;
+    const offset = Math.round(offsetSeconds * sampleRate);
+    const frames = Math.max(1, Math.ceil(duration * sampleRate));
+    const channels = 2;
+    const out = [new Float32Array(frames), new Float32Array(frames)];
+    function addBuffer(buffer, gain, startAt) {
+      if (!buffer || gain === 0) return;
+      const sourceRate = buffer.sampleRate;
+      const sourceLength = buffer.length;
+      const available = Math.min(sourceLength, Math.ceil((frames - startAt) * sourceRate / sampleRate));
+      if (available <= 0) return;
+      const left = buffer.getChannelData(0);
+      const right = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : left;
+      for (let i = 0; i < frames - startAt; i++) {
+        const srcPos = i * sourceRate / sampleRate;
+        if (srcPos >= sourceLength) break;
+        const idx = Math.floor(srcPos), frac = srcPos - idx;
+        const idx2 = Math.min(idx + 1, sourceLength - 1);
+        const l = left[idx] * (1-frac) + left[idx2] * frac;
+        const r = right[idx] * (1-frac) + right[idx2] * frac;
+        out[0][startAt+i] += l * gain;
+        out[1][startAt+i] += r * gain;
+      }
+    }
+    addBuffer(a, gainA, 0);
+    addBuffer(b, gainB, offset);
+    // Soft limiter to avoid harsh clipping when both voices overlap.
+    for (let ch=0; ch<channels; ch++) {
+      for (let i=0; i<frames; i++) out[ch][i] = Math.tanh(out[ch][i] * 0.9);
+    }
+    return {channels: out, sampleRate, frames};
+  }
+  function encodeWav(mix) {
+    const {channels, sampleRate, frames} = mix;
+    const channelCount = 2, bytesPerSample = 2;
+    const dataSize = frames * channelCount * bytesPerSample;
+    const buffer = new ArrayBuffer(44 + dataSize);
+    const view = new DataView(buffer);
+    function writeStr(offset, str){ for(let i=0;i<str.length;i++) view.setUint8(offset+i,str.charCodeAt(i)); }
+    writeStr(0,'RIFF'); view.setUint32(4,36+dataSize,true); writeStr(8,'WAVE');
+    writeStr(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true);
+    view.setUint16(22,channelCount,true); view.setUint32(24,sampleRate,true);
+    view.setUint32(28,sampleRate*channelCount*bytesPerSample,true);
+    view.setUint16(32,channelCount*bytesPerSample,true); view.setUint16(34,16,true);
+    writeStr(36,'data'); view.setUint32(40,dataSize,true);
+    let offset=44;
+    for(let i=0;i<frames;i++) for(let ch=0;ch<channelCount;ch++) {
+      const s=Math.max(-1,Math.min(1,channels[ch][i]));
+      view.setInt16(offset, s<0 ? s*32768 : s*32767, true); offset+=2;
+    }
+    return new Blob([buffer],{type:'audio/wav'});
+  }
+  $('mixBtn').addEventListener('click', () => {
+    if (!bufferA || !bufferB) {
+      setStatus('Upload both audio files first. Even chaos needs two ingredients.');
+      return;
+    }
+    try {
+      $('mixBtn').disabled = true;
+      $('meterBar').style.width = '60%';
+      setStatus('Calculating vibes… adding waveforms… consulting the imaginary professor.');
+      setTimeout(() => {
+        try {
+          const offset = Number($('offset').value);
+          const maxDuration = Math.max(bufferA.duration, offset + bufferB.duration);
+          const requested = $('ending').value;
+          const duration = requested === 'auto' ? maxDuration : Math.min(maxDuration, Number(requested));
+          const mixed = resampleAndMix(bufferA, bufferB, offset, Number($('volA').value)/100, Number($('volB').value)/100, duration);
+          const blob = encodeWav(mixed);
+          if (resultUrl) URL.revokeObjectURL(resultUrl);
+          resultUrl = URL.createObjectURL(blob);
+          $('resultAudio').src = resultUrl; $('resultAudio').hidden = false;
+          $('downloadBtn').disabled = false;
+          $('meterBar').style.width = '100%';
+          setStatus(`Mix ready! ${duration.toFixed(1)} seconds of audio. Your calculator is proud of you.`);
+        } catch (err) {
+          console.error(err); setStatus('The mix failed. Try shorter files or another audio format.');
+        } finally { $('mixBtn').disabled = false; }
+      }, 30);
+    } catch (err) {
+      $('mixBtn').disabled = false; setStatus('Something went wrong while mixing. Please try again.');
+    }
+  });
+  $('downloadBtn').addEventListener('click', () => {
+    if (!resultUrl) return;
+    const a = document.createElement('a');
+    a.href = resultUrl; a.download = 'KOSA-funny-mix.wav';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  $('jokeBtn').addEventListener('click', () => {
+    const current = $('joke').textContent;
+    let next = current;
+    while (next === current && jokes.length > 1) next = jokes[Math.floor(Math.random()*jokes.length)];
+    $('joke').textContent = '“' + next + '”';
+  });
+  $('resetBtn').addEventListener('click', () => {
+    bufferA = bufferB = null;
+    $('fileA').value = ''; $('fileB').value = '';
+    $('previewA').removeAttribute('src'); $('previewA').hidden = true;
+    $('previewB').removeAttribute('src'); $('previewB').hidden = true;
+    $('resultAudio').removeAttribute('src'); $('resultAudio').hidden = true;
+    $('volA').value = 80; $('volB').value = 80; $('offset').value = 0; $('ending').value = 'auto';
+    $('volALabel').textContent = '80%'; $('volBLabel').textContent = '80%';
+    $('offsetLabel').textContent = '0.0 s'; $('endingLabel').textContent = 'Auto';
+    $('downloadBtn').disabled = true; $('meterBar').style.width = '0%';
+    if (resultUrl) URL.revokeObjectURL(resultUrl); resultUrl = null;
+    setStatus('Reset complete. Fresh chaos, zero equations carried over.');
+  });
+})();
+</script>
+</body>
+</html>
